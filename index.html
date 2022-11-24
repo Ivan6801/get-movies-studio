@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Studio Anime</title>
+  </head>
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300&display=swap");
+    * {
+      font-family: "Anton", sans-serif;
+      font-family: "Inter", sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      text-align: center;
+      font-size: 80px;
+      margin-top: 80px;
+    }
+
+    .photos-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      width: 100%;
+      margin-bottom: 150px;
+    }
+
+    .photos-container img {
+      width: 400px;
+      height: 300px;
+      object-fit: cover;
+      -webkit-box-shadow: 0 35px 20px #777;
+      -moz-box-shadow: 0 35px 20px #777;
+      box-shadow: 0 35px 20px #777;
+      transform: rotateZ(-4deg);
+    }
+  </style>
+  <body>
+    <h1>
+      Studio Anime <br />
+      movies
+    </h1>
+    <section id="movies" class="photos-container"></section>
+  </body>
+  <script>
+    const movies = document.getElementById("movies");
+    const BASE_API = "https://anime-facts-rest-api.herokuapp.com/api/v1";
+
+    async function getMoviesInfo() {
+      const response = await fetch(BASE_API);
+      const moviesInfo = await response.json();
+      console.log("MOVIES INFO", moviesInfo);
+      return moviesInfo.data;
+    }
+
+    getMoviesInfo().then((moviesInfo) => {
+      moviesInfo.map((movieInfo) => {
+        const h2 = document.createElement("h2");
+        const img = document.createElement("img");
+        h2.innerHTML = movieInfo.anime_name;
+        img.src = movieInfo.anime_img;
+        movies.appendChild(h2);
+        movies.appendChild(img);
+      });
+    });
+  </script>
+</html>
